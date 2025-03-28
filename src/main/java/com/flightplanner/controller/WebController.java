@@ -37,18 +37,19 @@ public class WebController {
         Double maxPriceValue = null;
         if (maxPrice != null && !maxPrice.isEmpty()) {
             try {
-                // Proovime parsida Double väärtuseks, asendades koma punktiga
+                //Proovime parsida Double väärtuseks, asendades koma punktiga
                 maxPriceValue = Double.parseDouble(maxPrice.replace(",", "."));
                 logger.info("Parsed maxPrice to: " + maxPriceValue);
             } catch (NumberFormatException e) {
                 logger.warning("Could not parse maxPrice: " + maxPrice + " - " + e.getMessage());
-                // Ei tee midagi, jätame maxPriceValue null'iks
+                //Ei tee midagi maxPriceValue jääb null'iks
             }
         }
         
         List<Flight> flights;
         
         try {
+            //Kui mingi filter on määratud, siis otsib, muidu tagastab kõik lennud
             if (destination != null || departureDate != null || maxPriceValue != null) {
                 flights = flightService.searchFlights(destination, departureDate, maxPriceValue);
             } else {
@@ -61,7 +62,7 @@ public class WebController {
             e.printStackTrace();
             flights = flightService.getAllFlights(); // Default to all flights on error
         }
-        
+        //Paneme tulemused mudelisse ja kuvame index.html lehel
         model.addAttribute("flights", flights);
         return "index";
     }
