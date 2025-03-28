@@ -35,7 +35,7 @@ public class DataLoader {
         
         String[] airlines = {"Estonian Air", "Finnair", "Lufthansa", "British Airways", "Air France"};
         String[] origins = {"Tallinn", "Helsinki", "Frankfurt", "London", "Paris", "Amsterdam"};
-        String[] destinations = {"New York", "Tokyo", "Sydney", "Rooma", "Barcelona", "Dubai", "Singapore", ""};
+        String[] destinations = {"Tallinn", "Helsinki", "Frankfurt", "London", "Paris", "Amsterdam"};
         
         LocalDateTime now = LocalDateTime.now();
         
