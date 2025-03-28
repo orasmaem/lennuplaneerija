@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lennuplaneerija</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 20px;
+            padding-bottom: 40px;
+        }
+        .flight-card {
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+        .flight-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4 text-primary">Lennuplaneerija</h1>
+        
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Lendude otsing</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="searchForm" class="row g-3">
+                            <div class="col-md-4">
+                                <label for="destination" class="form-label">Sihtkoht</label>
+                                <input type="text" class="form-control" id="destination" name="destination" th:value="${param.destination}">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="departureDate" class="form-label">Kuupäev</label>
+                                <input type="date" class="form-control" id="departureDate" name="departureDate" th:value="${param.departureDate}">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="maxPrice" class="form-label">Max hind (€)</label>
+                                <input type="number" class="form-control" id="maxPrice" name="maxPrice" th:value="${param.maxPrice}">
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">Otsi lende</button>
+                                <a href="/" class="btn btn-outline-secondary">Lähtesta</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h2>Saadaolevad lennud</h2>
+        
+        <div th:if="${param.destination != null || param.departureDate != null || param.maxPrice != null}" class="alert alert-info alert-dismissible fade show mb-3" role="alert">
+            <strong>Otsingufiltrid:</strong>
+            <span th:if="${param.destination != null}"> Sihtkoht: <span th:text="${param.destination}">Sihtkoht</span></span>
+            <span th:if="${param.departureDate != null}"> Kuupäev: <span th:text="${param.departureDate}">Kuupäev</span></span>
+            <span th:if="${param.maxPrice != null}"> Max hind: <span th:text="${param.maxPrice}">Hind</span>€</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        
+        <div class="row" id="flightList">
+            <div th:if="${flights.isEmpty()}" class="col-12">
+                <div class="alert alert-info">
+                    Valitud kriteeriumitele vastavaid lende ei leitud. Proovi teisi otsingukriteeriume.
+                </div>
+            </div>
+            <div th:each="flight : ${flights}" class="col-md-6">
+                <div class="card flight-card">
+                    <div class="card-header d-flex justify-content-between">
+                        <h5 th:text="${flight.airline} + ' ' + ${flight.flightNumber}">Lennufirma</h5>
+                        <span class="badge bg-primary" th:text="${#numbers.formatDecimal(flight.price, 0, 'COMMA', 2, 'POINT')} + ' €'">199.99 €</span>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            <span th:text="${flight.origin}">Lähtekoht</span> → 
+                            <span th:text="${flight.destination}">Sihtkoht</span>
+                        </h6>
+                        <p class="card-text">
+                            <small>
+                                Väljumine: <span th:text="${#temporals.format(flight.departureTime, 'dd.MM.yyyy HH:mm')}">01.01.2025 12:00</span><br>
+                                Saabumine: <span th:text="${#temporals.format(flight.arrivalTime, 'dd.MM.yyyy HH:mm')}">01.01.2025 14:00</span>
+                            </small>
+                        </p>
+                        <span class="badge bg-success">Saadaval</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer text-center">
+            <p>© 2025 Lennuplaneerija - CGI proovitöö</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

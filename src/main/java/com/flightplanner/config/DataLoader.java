@@ -33,9 +33,9 @@ public class DataLoader {
     private List<Flight> generateSampleFlights() {
         List<Flight> flights = new ArrayList<>();
         
-        String[] airlines = {"Estonian Air", "Finnair", "Lufthansa", "British Airways", "Air France", "KLM"};
+        String[] airlines = {"Estonian Air", "Finnair", "Lufthansa", "British Airways", "Air France"};
         String[] origins = {"Tallinn", "Helsinki", "Frankfurt", "London", "Paris", "Amsterdam"};
-        String[] destinations = {"New York", "Tokyo", "Sydney", "Rome", "Barcelona", "Dubai", "Singapore", "Cape Town"};
+        String[] destinations = {"New York", "Tokyo", "Sydney", "Rooma", "Barcelona", "Dubai", "Singapore", ""};
         
         LocalDateTime now = LocalDateTime.now();
         
@@ -47,25 +47,25 @@ public class DataLoader {
             flight.setOrigin(origins[random.nextInt(origins.length)]);
             flight.setDestination(destinations[random.nextInt(destinations.length)]);
             
-            // Generate random flight number
+            // Lennu number
             flight.setFlightNumber(airlines[airlineIndex].substring(0, 2).toUpperCase() + (100 + random.nextInt(900)));
             
-            // Generate random departure time within the next 30 days
+            // Väljumis aeg
             int daysOffset = random.nextInt(30);
             int hoursOffset = random.nextInt(24);
-            int minutesOffset = random.nextInt(4) * 15; // 0, 15, 30, or 45 minutes
+            int minutesOffset = random.nextInt(4) * 15; 
             
             LocalDateTime departureTime = now.plusDays(daysOffset).plusHours(hoursOffset).withMinute(minutesOffset);
             flight.setDepartureTime(departureTime);
             
-            // Generate random flight duration between 1 and 15 hours
+            // Lennu pikkus
             int flightDurationHours = 1 + random.nextInt(14);
-            int flightDurationMinutes = random.nextInt(4) * 15; // 0, 15, 30, or 45 minutes
+            int flightDurationMinutes = random.nextInt(4) * 15; 
             
             LocalDateTime arrivalTime = departureTime.plusHours(flightDurationHours).plusMinutes(flightDurationMinutes);
             flight.setArrivalTime(arrivalTime);
             
-            // Generate random price between 100 and 1500 EUR
+            // Lennu hind
             double price = 100.0 + random.nextInt(1400);
             flight.setPrice(price);
             
