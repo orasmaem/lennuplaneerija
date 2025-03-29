@@ -34,12 +34,12 @@ public class DataLoader {
         List<Flight> flights = new ArrayList<>();
         
         String[] airlines = {"Estonian Air", "Finnair", "Lufthansa", "British Airways", "Air France"};
-        String[] origins = {"Tallinn", "Helsinki", "Frankfurt", "London", "Paris", "Amsterdam"};
-        String[] destinations = {"Tallinn", "Helsinki", "Frankfurt", "London", "Paris", "Amsterdam"};
+        String[] origins = {"Tallinn"};
+        String[] destinations = {"Riia", "Helsinki", "Frankfurt", "London", "Pariis", "Amsterdam", "Stockholm", "Oslo", "Kopenhaagen", "Berliin", "Brüssel", "Milano", "Barcelona", "Madrid", "Rooma"};
         
         LocalDateTime now = LocalDateTime.now();
         
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 40; i++) {
             Flight flight = new Flight();
             
             int airlineIndex = random.nextInt(airlines.length);

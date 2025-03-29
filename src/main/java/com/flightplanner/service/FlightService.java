@@ -102,10 +102,16 @@ public class FlightService {
         }
     }
     
-    // Vana meetod, mille jätame alles tahapoole ühilduvuseks
+    
     @Deprecated
     public List<Flight> searchFlights(String destination, LocalDate departureDate, Double maxPrice) {
         return searchFlights(destination, departureDate, null, maxPrice);
+    }
+
+    public List<String> getDestinationSuggestions(String prefix) {
+        logger.info("Fetching destination suggestions for prefix: " + prefix);
+        
+        return flightRepository.findDestinationSuggestions(prefix);
     }
 
     public Flight saveFlight(Flight flight) {

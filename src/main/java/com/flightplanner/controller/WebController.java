@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody; // Add this import
 
 import java.time.LocalDate;
 import java.util.List;
@@ -81,5 +82,15 @@ public class WebController {
         //Paneme tulemused mudelisse ja kuvame index.html lehel
         model.addAttribute("flights", flights);
         return "index";
+    }
+
+    @GetMapping("/api/destinations/suggest")
+    @ResponseBody 
+    public List<String> suggestDestinations(@RequestParam(value = "term", defaultValue = "") String term) {
+        if (term.isEmpty()) { 
+            return List.of(); 
+        }
+        
+        return flightService.getDestinationSuggestions(term);
     }
 }
