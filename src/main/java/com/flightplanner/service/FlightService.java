@@ -47,10 +47,11 @@ public class FlightService {
         return flightRepository.findByDepartureTimeBetween(startOfDay, endOfDay);
     }
 
-    public List<Flight> searchFlights(String destination, LocalDate departureDate, Double maxPrice) {
+    public List<Flight> searchFlights(String destination, LocalDate departureDate, Double minPrice, Double maxPrice) {
         try {
             logger.info("Search parameters - destination: " + destination + 
                       ", departureDate: " + departureDate + 
+                      ", minPrice: " + minPrice +
                       ", maxPrice: " + maxPrice);
                       
             // Kõige lihtsam lähenemine - hakka algusest peale
@@ -76,12 +77,20 @@ public class FlightService {
                 logger.info("After date filter: " + results.size() + " matches");
             }
             
-            // Filtreeri hinna järgi kui vaja
+            // Filtreeri miinimumhinna järgi kui vaja
+            if (minPrice != null) {
+                results = results.stream()
+                         .filter(flight -> flight.getPrice() >= minPrice)
+                         .toList();
+                logger.info("After minPrice filter: " + results.size() + " matches");
+            }
+            
+            // Filtreeri maksimumhinna järgi kui vaja
             if (maxPrice != null) {
                 results = results.stream()
                          .filter(flight -> flight.getPrice() <= maxPrice)
                          .toList();
-                logger.info("After price filter: " + results.size() + " matches");
+                logger.info("After maxPrice filter: " + results.size() + " matches");
             }
             
             return results;
@@ -91,6 +100,12 @@ public class FlightService {
             // Tagasta tühi nimekiri vea korral, et kasutajale näidata tühja tulemust
             return List.of();
         }
+    }
+    
+    // Vana meetod, mille jätame alles tahapoole ühilduvuseks
+    @Deprecated
+    public List<Flight> searchFlights(String destination, LocalDate departureDate, Double maxPrice) {
+        return searchFlights(destination, departureDate, null, maxPrice);
     }
 
     public Flight saveFlight(Flight flight) {

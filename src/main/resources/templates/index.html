@@ -46,9 +46,13 @@
                                 <label for="departureDate" class="form-label">Kuupäev</label>
                                 <input type="date" class="form-control" id="departureDate" name="departureDate" th:value="${param.departureDate}">
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-2">
+                                <label for="minPrice" class="form-label">Min hind (€)</label>
+                                <input type="text" class="form-control" id="minPrice" name="minPrice" th:value="${param.minPrice}">
+                            </div>
+                            <div class="col-md-2">
                                 <label for="maxPrice" class="form-label">Max hind (€)</label>
-                                <input type="text" step="0.01" min="0" class="form-control" id="maxPrice" name="maxPrice" th:value="${param.maxPrice}" placeholder="Nt. 500">
+                                <input type="text" class="form-control" id="maxPrice" name="maxPrice" th:value="${param.maxPrice}">
                             </div>
                             <div class="col-12">
                                 <button type="submit" class="btn btn-primary">Otsi lende</button>
@@ -62,10 +66,11 @@
         
         <h2>Saadaolevad lennud</h2>
         
-        <div th:if="${param.destination != null || param.departureDate != null || param.maxPrice != null}" class="alert alert-info alert-dismissible fade show mb-3" role="alert">
+        <div th:if="${param.destination != null || param.departureDate != null || param.minPrice != null || param.maxPrice != null}" class="alert alert-info alert-dismissible fade show mb-3" role="alert">
             <strong>Otsingufiltrid:</strong>
             <span th:if="${param.destination != null}"> Sihtkoht: <span th:text="${param.destination}">Sihtkoht</span></span>
             <span th:if="${param.departureDate != null}"> Kuupäev: <span th:text="${param.departureDate}">Kuupäev</span></span>
+            <span th:if="${param.minPrice != null}"> Min hind: <span th:text="${param.minPrice}">Hind</span>€</span>
             <span th:if="${param.maxPrice != null}"> Max hind: <span th:text="${param.maxPrice}">Hind</span>€</span>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
